@@ -1,1 +1,38 @@
 #!/bin/bash
+echo '
+
+
+
+                                ~ Добро пожаловть в ShefOS центр управления ~
+
+'
+echo -e "
+      \t                     -> Установить драйвера Intel, Nvidia, Amd введите    1   "
+
+echo -e "
+      \t                     -> Включить буст графики Intel введите    2   "
+
+echo -e "
+      \t                     -> Устарнить неполдки Chaotic-aur введите   3   "
+
+echo -e "
+      \t                     -> Установить репозиторий BlackaArch для пентеста введите  4  "
+
+echo -e "
+      \t                     -> Устранить неполадки с ключами GPG введите  5  "
+
+echo -n "
+
+                                     -> Введите значение : "
+read main_menu
+      case "$main_menu" in
+         "1" ) clear ;
+           ;;
+         "2" ) clear ;
+           ;;
+         "3" ) clear ;
+           ;;
+         "4" ) clear ;
+          ;;
+         "5" ) clear ;
+      esac
