@@ -27,13 +27,21 @@ echo -n "
                                      -> Введите значение : "
 read main_menu
       case "$main_menu" in
-         "1" ) clear ; gnome-terminal -e "/bin/bash -c 'путькскрипту.sh; exec /bin/bash -i'"
+         "1" ) clear ;
+         cd ~/ ; git clone https://github.com/linuxshef/drivers.git ; cd drivers ; ./Drivers ;
+         cd ~/ ; rm -Rf drivers ; rm -Rf shefos-control
            ;;
-         "2" ) clear ;
+         "2" ) clear ; sudo systemctl enable --now igpu ; echo '    Выполнено :)  '
            ;;
          "3" ) clear ;
+         cd ~/ ; git clone https://github.com/linuxshef/chaotic.git ; cd chaotic ; ./chaotic ;
+         cd ~/ ; rm -Rf chaotic ; rm -Rf shefos-control
            ;;
          "4" ) clear ;
+         cd ~/ ; git clone https://github.com/linuxshef/hackzone.git ; cd hackzone ; ./blackarchrep ;
+         cd ~/ ; rm -Rf hackzone ; rm -Rf shefos-control
           ;;
          "5" ) clear ;
+         cd ~/ ; git clone https://github.com/linuxshef/gpgfix.git ; cd gpgfix ; ./gpgfix ;
+         cd ~/ ; rm -Rf gpgfix ; rm -Rf shefos-control
       esac
