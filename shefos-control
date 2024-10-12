@@ -18,11 +18,14 @@ echo -e "
 
 echo -e "
       \t                     -> Установить репозиторий BlackaArch для пентеста введите  4  "
+
 echo -e "
       \t                     -> Устранить неполадки с ключами GPG введите  5  "
 
-echo -n "
+echo -e "
+      \t                     -> Установить Dotnet Prefix в LuxWine  6  "
 
+echo -n "
                                      -> Введите значение : "
 read main_menu
       case "$main_menu" in
@@ -43,4 +46,8 @@ read main_menu
          "5" ) clear ;
          cd ~/ ; git clone https://github.com/linuxshef/gpgfix.git ; cd gpgfix ; ./gpgfix ;
          cd ~/ ; rm -Rf gpgfix ; rm -Rf shefos-control
+          ;;
+         "6" ) clear ; cd ~/LuxWine/wprefixes/ ; wget https://github.com/VHSgunzo/wine-prefix/releases/download/v0.0.8/defprefix_dotnet.xz.lwpfx ;
+          unsquashfs -f -d defprefix_dotnet defprefix_dotnet.xz.lwpfx ; echo '    Выполнено :)  ' ;
+          cd ~/ ; rm -Rf shefos-control
       esac
