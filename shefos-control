@@ -15,7 +15,7 @@ echo -e "
                  |                                                         |   
                  | ( 5 )--> Устранить неполадки с ключами GPG введите      |
                  |                                                         | 
-                 | ( 6 )--> Установить Dotnet Prefix в LuxWine             | 
+                 | ( 6 )--> Установить Dotnet Prefix в LuxWine             |
                  |---------------------------------------------------------|"
 echo -n "
                       -> Введите значение : 1 ; 2 ; 3 .... : "
@@ -42,4 +42,7 @@ read main_menu
          "6" ) clear ; cd ~/LuxWine/wprefixes/ ; wget https://github.com/VHSgunzo/wine-prefix/releases/download/v0.0.8/defprefix_dotnet.xz.lwpfx ;
           unsquashfs -f -d defprefix_dotnet defprefix_dotnet.xz.lwpfx ; echo '    Выполнено :)  ' ;
           cd ~/ ; rm -Rf shefos-control
+          ;;
+          "7" ) clear ;
+          cd ~/ ;
       esac
