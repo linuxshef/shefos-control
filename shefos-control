@@ -47,8 +47,8 @@ read main_menu
           ;;
           "7" ) clear ;
           sudo rm /var/lib/pacman/db.lck >/dev/null 2>&1; RETVAL=$? ;
-          sudo pacman -Syy ;
-          sudo pacman -Rsc linux614 linux614-headers linux614-acpi_call ;
-          sudo pacman -Syy linux615 linux615-headers linux615-acpi_call ;
+          sudo pacman -Syy --noconfirm ;
+          sudo pacman -Rsc linux614 linux614-headers linux614-acpi_call --noconfirm ;
+          sudo pacman -Syy linux615 linux615-headers linux615-acpi_call --noconfirm ;
           sudo mkinitcpio -p linux615 ; sudo update-grub ; reboot
       esac
