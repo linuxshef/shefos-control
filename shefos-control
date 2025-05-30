@@ -16,6 +16,8 @@ echo -e "
                  | ( 5 )--> Устранить неполадки с ключами GPG введите      |
                  |                                                         | 
                  | ( 6 )--> Установить Dotnet Prefix в LuxWine             |
+                 |                                                         |
+                 | ( 7 )--> Установить Ядро 6.15 ( Linux 6.15 )            |
                  |---------------------------------------------------------|"
 echo -n "
                       -> Введите значение : 1 ; 2 ; 3 .... : "
@@ -43,6 +45,5 @@ read main_menu
           unsquashfs -f -d defprefix_dotnet defprefix_dotnet.xz.lwpfx ; echo '    Выполнено :)  ' ;
           cd ~/ ; rm -Rf shefos-control
           ;;
-          "7" ) clear ;
-          cd ~/ ;
+          "7" ) clear ; sudo pacman -Rsc linux614 linux614-headers linux614-acpi_call ; sudo pacman -Syy linux615 linux615-headers linux615-acpi_call ; sudo mkinitcpio -p linux615 ; sudo update-grub ; reboot
       esac
