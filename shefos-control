@@ -45,5 +45,10 @@ read main_menu
           unsquashfs -f -d defprefix_dotnet defprefix_dotnet.xz.lwpfx ; echo '    Выполнено :)  ' ;
           cd ~/ ; rm -Rf shefos-control
           ;;
-          "7" ) clear ; sudo pacman -Rsc linux614 linux614-headers linux614-acpi_call ; sudo pacman -Syy linux615 linux615-headers linux615-acpi_call ; sudo mkinitcpio -p linux615 ; sudo update-grub ; reboot
+          "7" ) clear ;
+          sudo rm /var/lib/pacman/db.lck >/dev/null 2>&1; RETVAL=$? ;
+          sudo pacman -Syy ;
+          sudo pacman -Rsc linux614 linux614-headers linux614-acpi_call ;
+          sudo pacman -Syy linux615 linux615-headers linux615-acpi_call ;
+          sudo mkinitcpio -p linux615 ; sudo update-grub ; reboot
       esac
