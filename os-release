@@ -1,0 +1,10 @@
+NAME="Manjaro Linux"
+ID=manjaro
+PRETTY_NAME="Manjaro Linux"
+VERSION_ID="2024.06.16"
+HOME_URL="https://manjaro.org/"
+SUPPORT_URL="https://forum.manjaro.org/"
+BUG_REPORT_URL="https://gitlab.manjaro.org/explore/projects"
+PRIVACY_POLICY_URL="https://manjaro.org/privacy-policy/"
+VERSION_CODENAME="Zetar"
+BUILD_ID="2024.06.16"

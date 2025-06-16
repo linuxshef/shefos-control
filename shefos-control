@@ -20,6 +20,8 @@ echo -e "
                  | ( 7 )--> Установить Ядро 6.15 ( Linux 6.15 )            |
                  |                                                         |
                  | ( 8 )--> Fix Исправление Balena-Etcher                  |
+                 |                                                         |
+                 | ( 9 )--> Исправление HP-ToolBOX HPliP                   |
                  |---------------------------------------------------------|"
 echo -n "
                       -> Введите значение : 1 ; 2 ; 3 .... : "
@@ -60,4 +62,9 @@ read main_menu
           sudo pacman -U balena-etcher-bin-2.1.3-1-x86_64.pkg.tar.zst --noconfirm ;
           rm -Rf balena-etcher-bin-2.1.3-1-x86_64.pkg.tar.zst ;
           sudo sed -i s/'Icon=balena-etcher'/'Icon=etcher'/g /usr/share/applications/balenaEtcher.desktop
+          ;;
+          "9" ) clear ;
+          sudo rm /etc/os-release
+          sudo rm /usr/lib/os-release
+          sudo cp os-release /usr/lib/ ; reboot
       esac
