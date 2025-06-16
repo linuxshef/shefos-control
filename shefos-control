@@ -64,7 +64,8 @@ read main_menu
           sudo sed -i s/'Icon=balena-etcher'/'Icon=etcher'/g /usr/share/applications/balenaEtcher.desktop
           ;;
           "9" ) clear ;
-          sudo rm /etc/os-release
-          sudo rm /usr/lib/os-release
-          sudo cp os-release /usr/lib/ ; reboot
+          sudo rm /etc/os-release ;
+          sudo rm /usr/lib/os-release ;
+          sudo cp os-release /usr/lib/ ;
+          sudo ln -s /usr/lib/os-release /etc
       esac
