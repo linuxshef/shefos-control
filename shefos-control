@@ -32,18 +32,8 @@ read main_menu
          cd ~/ ; rm -Rf drivers ; rm -Rf shefos-control
            ;;
          "2" ) clear ;
-         sudo pacman-mirrors --fasttrack ;
-         sudo pacman -Sy gnupg archlinux-keyring manjaro-keyring chaotic-keyring --noconfirm ;
-         sudo rm -r /etc/pacman.d/gnupg ;
-         sudo pacman-key --init ;
-         sudo pacman-key --populate archlinux manjaro chaotic ;
-         sudo pacman-key --refresh-keys ;
-         sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com ;
-         sudo pacman-key --lsign-key 3056513887B78AEB ;
-         sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' --noconfirm ;
-         sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst' --noconfirm ;
-         sudo pacman -Sy gnupg archlinux-keyring manjaro-keyring chaotic-keyring chaotic-mirrorlist --noconfirm ;
-         rm -Rf shefos-control
+         sudo rm /etc/pacman.conf
+         sudo cp pacman.conf /etc/
            ;;
          "3" ) clear ; sudo systemctl enable --now igpu ; echo '    Выполнено :)  ' ; rm -Rf shefos-control
            ;;
