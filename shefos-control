@@ -1,8 +1,5 @@
 #!/bin/bash
-
-# Получение размеров терминала
 window=$(stty -a | tr \; \\012 | egrep 'rows|columns' | cut '-d ' -f3)
-
 # Главное меню с отступами между пунктами
 OPTION=$(whiptail --title "ShefOS Центр Управления" --menu "Выберите действие:" $window 20  \
 "1" "Установить драйвера Intel, Nvidia, Amd" \
@@ -27,16 +24,18 @@ if [ $exitstatus != 0 ]; then
     echo "Выход из программы."
     exit 1
 fi
-
 # Обработка выбранного пункта
 case "$OPTION" in
     "1")
         cd ~/ && git clone https://github.com/linuxshef/drivers.git && cd drivers && ./Drivers
         cd ~/ && rm -Rf drivers
+        rm -Rf shefos-control
         ;;
     "2")
         sudo rm /etc/pacman.conf
         sudo cp pacman.conf /etc/
+        whiptail --msgbox "Выполнено :)" 8 40
+        rm -Rf shefos-control
         ;;
     "3")
         sudo systemctl enable --now igpu
@@ -45,14 +44,16 @@ case "$OPTION" in
         ;;
     "4")
         cd ~/ && git clone https://github.com/linuxshef/hackzone.git && cd hackzone && ./blackarchrep
-        cd ~/ && rm -Rf hackzone && rm -Rf shefos-control
+        cd ~/ && rm -Rf hackzone
+        whiptail --msgbox "Выполнено :)" 8 40
+        rm -Rf shefos-control
         ;;
     "5")
         cd ~/LuxWine/wprefixes/
         wget https://github.com/VHSgunzo/wine-prefix/releases/download/v0.0.8/defprefix_dotnet.xz.lwpfx
         unsquashfs -f -d defprefix_dotnet defprefix_dotnet.xz.lwpfx
         whiptail --msgbox "Выполнено :)" 8 40
-        cd ~/
+        cd ~/ && rm -Rf shefos-control
         ;;
     "6")
         sudo rm /var/lib/pacman/db.lck >/dev/null 2>&1
@@ -70,13 +71,16 @@ case "$OPTION" in
         sudo pacman -U balena-etcher-bin-2.1.3-1-x86_64.pkg.tar.zst --noconfirm
         rm -Rf balena-etcher-bin-2.1.3-1-x86_64.pkg.tar.zst
         sudo sed -i s/'Icon=balena-etcher'/'Icon=etcher'/g /usr/share/applications/balenaEtcher.desktop
+        whiptail --msgbox "Выполнено :)" 8 40
+        rm -Rf shefos-control
         ;;
     "8")
         sudo rm /etc/os-release
         sudo rm /usr/lib/os-release
         sudo cp os-release /usr/lib/
         sudo ln -s /usr/lib/os-release /etc
+        whiptail --msgbox "Выполнено :)" 8 40
+        rm -Rf shefos-control
         ;;
 esac
-
 rm -Rf shefos-control
