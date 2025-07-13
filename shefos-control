@@ -1,66 +1,82 @@
 #!/bin/bash
-clear
-echo -e "
- \t 
-                      ~ Добро пожаловть в ShefOS центр управления ~
-                                      
-                 |---------------------------------------------------------|
-                 | ( 1 )--> Установить драйвера Intel, Nvidia, Amd         |
-                 |                                                         |
-                 | ( 2 )--> Устранить неполадки с ключами GPG введите      |
-                 |                                                         |
-                 | ( 3 )--> Включить буст графики Intel введите            |
-                 |                                                         |
-                 | ( 4 )--> Установить репозиторий BlackaArch для пентеста |
-                 |                                                         | 
-                 | ( 5 )--> Установить Dotnet Prefix в LuxWine             |
-                 |                                                         |
-                 | ( 6 )--> Установить Ядро 6.15 ( Linux 6.15 )            |
-                 |                                                         |
-                 | ( 7 )--> Fix Исправление Balena-Etcher                  |
-                 |                                                         |
-                 | ( 8 )--> Исправление HP-ToolBOX HPliP                   |
-                 |---------------------------------------------------------|"
-echo -n "
-                      -> Введите значение : 1 ; 2 ; 3 .... : "
-read main_menu
-      case "$main_menu" in
-         "1" ) clear ;
-         cd ~/ ; git clone https://github.com/linuxshef/drivers.git ; cd drivers ; ./Drivers ;
-         cd ~/ ; rm -Rf drivers
-           ;;
-         "2" ) clear ;
-         sudo rm /etc/pacman.conf ;
-         sudo cp pacman.conf /etc/
-           ;;
-         "3" ) clear ; sudo systemctl enable --now igpu ; echo '    Выполнено :)  ' ; rm -Rf shefos-control
-           ;;
-         "4" ) clear ;
-         cd ~/ ; git clone https://github.com/linuxshef/hackzone.git ; cd hackzone ; ./blackarchrep ;
-         cd ~/ ; rm -Rf hackzone ; rm -Rf shefos-control
-          ;;
-         "5" ) clear ; cd ~/LuxWine/wprefixes/ ; wget https://github.com/VHSgunzo/wine-prefix/releases/download/v0.0.8/defprefix_dotnet.xz.lwpfx ;
-          unsquashfs -f -d defprefix_dotnet defprefix_dotnet.xz.lwpfx ; echo '    Выполнено :)  ' ;
-          cd ~/
-          ;;
-          "6" ) clear ;
-          sudo rm /var/lib/pacman/db.lck >/dev/null 2>&1; RETVAL=$? ;
-          sudo pacman -Syy --noconfirm ;
-          sudo pacman -Rsc linux614 linux614-headers linux614-acpi_call --noconfirm ;
-          sudo pacman -Syy linux615 linux615-headers linux615-acpi_call --noconfirm ;
-          sudo mkinitcpio -p linux615 ; sudo update-grub ; reboot
-          ;;
-          "7" ) clear ;
-          cd ~/ ; wget https://github.com/linuxshef/apps/releases/tag/balena-etcher-bin-2.1.3-1 ;
-          sudo pacman -R balena-etcher --noconfirm ;
-          sudo pacman -U balena-etcher-bin-2.1.3-1-x86_64.pkg.tar.zst --noconfirm ;
-          rm -Rf balena-etcher-bin-2.1.3-1-x86_64.pkg.tar.zst ;
-          sudo sed -i s/'Icon=balena-etcher'/'Icon=etcher'/g /usr/share/applications/balenaEtcher.desktop
-          ;;
-          "8" ) clear ;
-          sudo rm /etc/os-release ;
-          sudo rm /usr/lib/os-release ;
-          sudo cp os-release /usr/lib/ ;
-          sudo ln -s /usr/lib/os-release /etc
-      esac
+
+# Получение размеров терминала
+window=$(stty -a | tr \; \\012 | egrep 'rows|columns' | cut '-d ' -f3)
+
+# Главное меню с отступами между пунктами
+OPTION=$(whiptail --title "ShefOS Центр Управления" --menu "Выберите действие:" $window 20  \
+"1" "Установить драйвера Intel, Nvidia, Amd" \
+"" "" \
+"2" "Устранить неполадки с ключами GPG" \
+"" "" \
+"3" "Включить буст графики Intel" \
+"" "" \
+"4" "Установить репозиторий BlackArch для пентеста" \
+"" "" \
+"5" "Установить Dotnet Prefix в LuxWine" \
+"" "" \
+"6" "Установить Ядро 6.15 ( Linux 6.15 )" \
+"" "" \
+"7" "Fix Исправление Balena-Etcher" \
+"" "" \
+"8" "Исправление HP-ToolBOX HPliP" 3>&1 1>&2 2>&3)
+
+# Проверка выхода из меню
+exitstatus=$?
+if [ $exitstatus != 0 ]; then
+    echo "Выход из программы."
+    exit 1
+fi
+
+# Обработка выбранного пункта
+case "$OPTION" in
+    "1")
+        cd ~/ && git clone https://github.com/linuxshef/drivers.git && cd drivers && ./Drivers
+        cd ~/ && rm -Rf drivers
+        ;;
+    "2")
+        sudo rm /etc/pacman.conf
+        sudo cp pacman.conf /etc/
+        ;;
+    "3")
+        sudo systemctl enable --now igpu
+        whiptail --msgbox "Выполнено :)" 8 40
+        rm -Rf shefos-control
+        ;;
+    "4")
+        cd ~/ && git clone https://github.com/linuxshef/hackzone.git && cd hackzone && ./blackarchrep
+        cd ~/ && rm -Rf hackzone && rm -Rf shefos-control
+        ;;
+    "5")
+        cd ~/LuxWine/wprefixes/
+        wget https://github.com/VHSgunzo/wine-prefix/releases/download/v0.0.8/defprefix_dotnet.xz.lwpfx
+        unsquashfs -f -d defprefix_dotnet defprefix_dotnet.xz.lwpfx
+        whiptail --msgbox "Выполнено :)" 8 40
+        cd ~/
+        ;;
+    "6")
+        sudo rm /var/lib/pacman/db.lck >/dev/null 2>&1
+        sudo pacman -Syy --noconfirm
+        sudo pacman -Rsc linux614 linux614-headers linux614-acpi_call --noconfirm
+        sudo pacman -Syy linux615 linux615-headers linux615-acpi_call --noconfirm
+        sudo mkinitcpio -p linux615
+        sudo update-grub
+        reboot
+        ;;
+    "7")
+        cd ~/
+        wget https://github.com/linuxshef/apps/releases/tag/balena-etcher-bin-2.1.3-1
+        sudo pacman -R balena-etcher --noconfirm
+        sudo pacman -U balena-etcher-bin-2.1.3-1-x86_64.pkg.tar.zst --noconfirm
+        rm -Rf balena-etcher-bin-2.1.3-1-x86_64.pkg.tar.zst
+        sudo sed -i s/'Icon=balena-etcher'/'Icon=etcher'/g /usr/share/applications/balenaEtcher.desktop
+        ;;
+    "8")
+        sudo rm /etc/os-release
+        sudo rm /usr/lib/os-release
+        sudo cp os-release /usr/lib/
+        sudo ln -s /usr/lib/os-release /etc
+        ;;
+esac
+
 rm -Rf shefos-control
